@@ -1,6 +1,5 @@
 import { createSlice , createAsyncThunk } from '@reduxjs/toolkit'
 import api from '@/services/api'
-import { LogOut } from 'lucide-react'
 import { data } from 'react-router-dom'
 
 interface AuthState {
@@ -94,5 +93,5 @@ const authSlice = createSlice({
   },
 })
 
-export const { logout } = authSlice.actions
+export const { logOut } = authSlice.actions
 export default authSlice.reducer
