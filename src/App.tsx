@@ -1,13 +1,16 @@
-import './App.css'
-import AppRoutes from './routes/AppRoutes'
+import "./App.css";
+import AppRoutes from "./routes/AppRoutes";
+// import { Button } from "@/components/ui/button";
+// import { Card, CardContent } from "@/components/ui/card";
 
 function App() {
-
   return (
     <>
-      <AppRoutes />
+      <div>
+        <AppRoutes />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
