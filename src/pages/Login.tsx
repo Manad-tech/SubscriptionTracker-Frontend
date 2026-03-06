@@ -53,7 +53,7 @@ const Login = () => {
 
           <button
             type="submit"
-            disabled={true}
+            disabled={loading}
             className="bg-[var(--primary)] text-white rounded-md p-2 font-medium hover:opacity-90 transition cursor-pointer"
           >
             {loading ? "Logging in..." : "Login"}

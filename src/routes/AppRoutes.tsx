@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
@@ -12,6 +12,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      
       <Route element={<Layout />}>
         <Route
           path="/dashboard"
@@ -26,7 +27,7 @@ const AppRoutes = () => {
           path="/admin"
           element={
             <ProtectedRoute adminOnly>
-              <AdminPanel />
+              {/* <AdminPanel /> */}
             </ProtectedRoute>
           }
         />

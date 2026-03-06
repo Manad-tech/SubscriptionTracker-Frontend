@@ -1,0 +1,71 @@
+import React from "react";
+import { NavLink, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { logOut } from "@/store/authSlice";
+import { Button } from "@/components/ui/button";
+import { LayoutDashboard } from "lucide-react";
+import { CirclePlus } from "lucide-react";
+import { Clock } from "lucide-react";
+
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    navigate("/login");
+  };
+
+  const linkClasses =
+    "flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors gap-3 ";
+  return (
+    <div className="w-64 h-screen border-r border-border bg-card flex flex-col p-4 ">
+      <div className="mb-8 ">
+        <h2 className="text-lg font-semibold text-primary ">SubTracker</h2>
+      </div>
+
+      <nav className="flex flex-col gap-2 flex-1 ">
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            `${linkClasses} ${
+              isActive ? "bg-primary text-primaryForeground" : "hover:bg-muted"
+            }`
+          }
+        >
+          <LayoutDashboard size={15}/>
+          Dashboard
+        </NavLink>
+
+        <NavLink
+          to="/add"
+          className={({ isActive }) =>
+            `${linkClasses} ${
+              isActive ? "bg-primary text-primaryForeground" : "hover:bg-muted"
+            }`
+          }
+        >
+          <CirclePlus size={15}/>
+          Add Subscriptions
+        </NavLink>
+        <NavLink
+          to="/history"
+          className={({ isActive }) =>
+            `${linkClasses} ${
+              isActive ? "bg-primary text-primaryForeground" : "hover:bg-muted"
+            }`
+          }
+        >
+          <Clock size={15}/>
+          History
+        </NavLink>
+      </nav>
+
+      <Button variant={"secondary"} onClick={handleLogout}>
+        Logout
+      </Button>
+    </div>
+  );
+};
+
+export default Sidebar;
