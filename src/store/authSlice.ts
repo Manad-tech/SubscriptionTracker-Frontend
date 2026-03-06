@@ -53,6 +53,24 @@ export const register = createAsyncThunk(
   }
 )
 
+export const fetchSubscriptions = createAsyncThunk(
+  'api/subscriptions',
+  async (
+    data: {name: string; amount: Number; billingCycle: string; renewalDate: Date; category: string; isShared: boolean },
+    thunkAPI
+  ) => {
+    try {
+      const response = await api.get('/subscriptions')
+
+      return response.data
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Fetched Failed'
+      )
+    }
+  }
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
