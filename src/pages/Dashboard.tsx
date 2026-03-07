@@ -22,10 +22,22 @@ import {
   YAxis,
   Tooltip,
   CartesianGrid,
-} from 'recharts'
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+} from "recharts";
+
+const COLORS = ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"];
+
 import { getSubscriptions } from "@/services/subscriptionServices";
 import { CreditCard } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import SpendingTrendChart from "@/components/charts/SpendingTrendChart";
+import CategoryPieChart from "@/components/charts/CategoryPieChart";
+import RenewalBarChart from "@/components/charts/RenewalBarChart";
 
 const Dashboard = () => {
   const [subscriptions, setSubscriptions] = useState<any[]>([]);
@@ -38,7 +50,7 @@ const Dashboard = () => {
   const fetchSubscriptions = async () => {
     try {
       const data = await getSubscriptions();
-      setSubscriptions(data);
+      setSubscriptions(data.subscriptions);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching subscriptions:", error);
@@ -48,14 +60,31 @@ const Dashboard = () => {
 
   const totalSubscriptions = subscriptions.length;
 
-  const monthlySpend = subscriptions.reduce((total, sub) => {
+  const monthlySpend = subscriptions?.reduce((total, sub) => {
     return total + Number(sub.amount || 0);
   }, 0);
 
-  const chartData = subscriptions.map((sub: any) => ({
+  const trendData = subscriptions.map((sub: any) => ({
     name: sub.name,
     amount: sub.amount,
-  }))
+  }));
+
+  const categoryData = subscriptions.reduce((acc: any, sub: any) => {
+    const existing = acc.find((c: any) => c.name === sub.category);
+
+    if (existing) {
+      existing.value += sub.amount;
+    } else {
+      acc.push({ name: sub.category, value: sub.amount });
+    }
+
+    return acc;
+  }, []);
+
+  const renewalData = subscriptions.map((sub: any) => ({
+    name: sub.name,
+    renewal: new Date(sub.renewalDate).getDate(),
+  }));
 
   return (
     <div className="flex flex-col gap-6">
@@ -85,76 +114,19 @@ const Dashboard = () => {
         <Card>
           <CardHeader>
             <CardDescription>Upcoming Renewals</CardDescription>
-            <CardTitle className="text-2xl">2 </CardTitle>
+            <CardTitle className="text-2xl">{renewalData.length} </CardTitle>
           </CardHeader>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Subscription Spending</CardTitle>
-          <CardDescription>Price of each subscription</CardDescription>
-        </CardHeader>
+      <div className="grid grid-cols-2 gap-6">
+        <SpendingTrendChart data={trendData} />
+        <CategoryPieChart data={categoryData} />
+      </div>
 
-        <CardContent className="h-[300px]">
-
-          <ResponsiveContainer width="100%" height="100%">
-
-            <LineChart data={chartData}>
-
-              <CartesianGrid strokeDasharray="3 3" />
-
-              <XAxis dataKey="name" />
-
-              <YAxis />
-
-              <Tooltip />
-
-              <Line
-                type="monotone"
-                dataKey="price"
-                stroke="#6366F1"
-                strokeWidth={3}
-              />
-
-            </LineChart>
-
-          </ResponsiveContainer>
-
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Subscriptions</CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          {loading ? (<p>Loading Subscriptions...</p>) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Service</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Billing Cycle</TableHead>
-                <TableHead>Renewal Date</TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {subscriptions.map((sub) => (
-                <TableRow key={sub._id}>
-                  <TableCell>{sub.name} </TableCell>
-                  <TableCell>{sub.price} </TableCell>
-                  <TableCell>{sub.billingCycle} </TableCell>
-                  <TableCell>{new Date(sub.renewalDate).toLocaleDateString()}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          )}
-        </CardContent>
-      </Card>
+      <div className="mt-6">
+        <RenewalBarChart data={renewalData} />
+      </div>
     </div>
   );
 };

@@ -1,7 +1,5 @@
 import { createSlice , createAsyncThunk } from '@reduxjs/toolkit'
 import api from '@/services/api'
-import { LogOut } from 'lucide-react'
-import { data } from 'react-router-dom'
 
 interface AuthState {
   user: any | null
