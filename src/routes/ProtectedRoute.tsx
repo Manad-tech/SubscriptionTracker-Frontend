@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import type { RootState } from '@/store/store'
 import type React from 'react'
 
@@ -9,7 +9,9 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children , adminOnly = false }: ProtectedRouteProps) => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth)
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  )
 
   const token = localStorage.getItem('token')
 

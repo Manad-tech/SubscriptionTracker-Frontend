@@ -7,10 +7,23 @@ import {
   TableCell,
 } from "@/components/ui/table";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { getSubscriptions } from "@/services/subscriptionServices";
+import {
+  deleteSubscription,
+  getSubscriptions,
+} from "@/features/subscriptions/services/subscriptionServices";
 import { Pencil, Trash2 } from "lucide-react";
 
 const History = () => {
@@ -28,6 +41,18 @@ const History = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDelete = async (id: string) => {
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this subscription?",
+    );
+
+    if (!confirmDelete) return;
+
+    await deleteSubscription(id);
+
+    fetchSubscriptions();
   };
   return (
     <div className="space-y-6 ">
@@ -58,16 +83,43 @@ const History = () => {
               <TableCell className="flex gap-2">
                 <Button
                   variant={"outline"}
-                  onClick={() => navigate("/edit/${sub._id}")}
+                  onClick={() => navigate(`/edit/${sub._id}`)}
                 >
-                  <Pencil/>
+                  <Pencil />
                 </Button>
 
-                <Button
-                  variant={"destructive"}
-                  >
-                    <Trash2 />
-                  </Button>
+                <Dialog >
+                  <DialogTrigger asChild>
+                    <Button variant="destructive">
+                      <Trash2 />
+                    </Button>
+                  </DialogTrigger>
+
+                  <DialogContent className="text-white">
+                    <DialogHeader>
+                      <DialogTitle>Delete Subscription</DialogTitle>
+
+                      <DialogDescription>
+                        Are you sure you want to delete this subscription? This
+                        action cannot be undone.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <DialogFooter>
+                      <DialogTrigger asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DialogTrigger>
+
+                      <Button
+                        variant="outline"
+                        className="hover:bg-red-600"
+                        onClick={() => handleDelete(sub._id)}
+                      >
+                        Delete
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </TableCell>
             </TableRow>
           ))}

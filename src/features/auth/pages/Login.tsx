@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { saveAuth } from "@/services/authService";
 
-import { login } from "@/store/authSlice";
+
+import { login } from "@/features/auth/authSlice";
 import type { AppDispatch, RootState } from "@/store/store";
 
 const Login = () => {
@@ -59,6 +61,13 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+
+        <p className="text-sm text-center mt-5 text-muted">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-primary hover:underline">
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );

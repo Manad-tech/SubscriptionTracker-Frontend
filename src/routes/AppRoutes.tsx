@@ -1,38 +1,61 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Dashboard from "../pages/Dashboard";
-import AddSubscription from "../pages/AddSubscription";
-import History from "../pages/History";
+
+import Login from "../features/auth/pages/Login";
+import Register from "../features/auth/pages/Register";
+
+import Dashboard from "../features/subscriptions/pages/Dashboard";
+import AddSubscription from "../features/subscriptions/pages/AddSubscription";
+import History from "../features/subscriptions/pages/History";
+import EditSubscription from "@/features/subscriptions/pages/EditSubscription";
+
 import Layout from "../layout/Layout";
 import ProtectedRoute from "./ProtectedRoute";
+
+import AdminDashboard from "@/features/admin/pages/AdminDashboard";
+import Users from "@/features/admin/pages/Users";
+import AllSubscriptions from "@/features/admin/pages/AllSubscriptions";
+import AdminLayout from "@/layout/AdminLayout";
+import LandingPage from "@/features/landing/pages/LandingPage";
+import AuthLayout from "@/layout/AuthLayout";
+import Notifications from "@/pages/Notifications";
+import Analytics from "@/features/admin/pages/Analytics"
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      
-      <Route element={<Layout />}>
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+      <Route path="/" element={<LandingPage />} />
 
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute adminOnly>
-              {/* <AdminPanel /> */}
-            </ProtectedRoute>
-          }
-        />
+      <Route element={<AuthLayout />}>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add" element={<AddSubscription />} />
         <Route path="/history" element={<History />} />
+        <Route path="/edit/:id" element={<EditSubscription />} />
+      </Route>
+
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute adminOnly>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="users" element={<Users />} />
+        <Route path="subscriptions" element={<AllSubscriptions />} />
+        <Route path="analytics" element={<Analytics />} />
       </Route>
     </Routes>
   );

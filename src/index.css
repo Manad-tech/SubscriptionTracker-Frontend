@@ -57,3 +57,21 @@
     --chart-5: 340 75% 55%
   }
 }
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.auth-gradient {
+  background: linear-gradient(
+    -45deg,
+    #4f46e5,
+    #6366f1,
+    #7c3aed,
+    #4f46e5
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+}

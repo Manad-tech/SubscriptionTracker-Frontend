@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import NotificationBell from "@/components/NotificationBell";
 
 const Layout = () => {
   return (

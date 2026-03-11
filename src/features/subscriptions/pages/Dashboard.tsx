@@ -5,33 +5,8 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-} from "recharts";
-
-const COLORS = ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"];
-
-import { getSubscriptions } from "@/services/subscriptionServices";
+import { getSubscriptions } from "@/features/subscriptions/services/subscriptionServices";
 import { CreditCard } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -50,6 +25,8 @@ const Dashboard = () => {
   const fetchSubscriptions = async () => {
     try {
       const data = await getSubscriptions();
+
+      console.log(data);
       setSubscriptions(data.subscriptions);
       setLoading(false);
     } catch (error) {
@@ -84,6 +61,7 @@ const Dashboard = () => {
   const renewalData = subscriptions.map((sub: any) => ({
     name: sub.name,
     renewal: new Date(sub.renewalDate).getDate(),
+    category: sub.category
   }));
 
   return (
@@ -119,13 +97,13 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6 min-w-0">
         <SpendingTrendChart data={trendData} />
-        <CategoryPieChart data={categoryData} />
+        <CategoryPieChart categoryData={categoryData} />
       </div>
 
       <div className="mt-6">
-        <RenewalBarChart data={renewalData} />
+        <RenewalBarChart renewalData={renewalData} />
       </div>
     </div>
   );

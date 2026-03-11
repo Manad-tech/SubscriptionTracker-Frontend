@@ -1,15 +1,18 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { logOut } from "@/store/authSlice";
+import { logOut } from "@/features/auth/authSlice";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, Shield } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { Clock } from "lucide-react";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -33,7 +36,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <LayoutDashboard size={15}/>
+          <LayoutDashboard size={18} />
           Dashboard
         </NavLink>
 
@@ -45,7 +48,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <CirclePlus size={15}/>
+          <CirclePlus size={18} />
           Add Subscriptions
         </NavLink>
         <NavLink
@@ -56,9 +59,25 @@ const Sidebar = () => {
             }`
           }
         >
-          <Clock size={15}/>
+          <Clock size={18} />
           History
         </NavLink>
+
+        {user?.role === "Admin" && (
+          <NavLink
+            to="/admin/dashboard"
+            className={({ isActive }) =>
+              `${linkClasses} ${
+                isActive
+                  ? "bg-primary text-primaryForeground"
+                  : "hover:bg-muted"
+              }`
+            }
+          >
+            <Shield size={18} />
+            Admin Panel
+          </NavLink>
+        )}
       </nav>
 
       <Button variant={"secondary"} onClick={handleLogout}>

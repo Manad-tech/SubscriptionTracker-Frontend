@@ -17,6 +17,19 @@ import {
 } from "@/components/ui/card";
 
 const SpendingTrendChart = ({ data }: any) => {
+
+  if (!data || data.length === 0) {
+    return (
+      <Card>
+        <CardContent className="h-[320px] flex items-center justify-center">
+          <p className="text-muted-foreground">
+            No data available
+          </p>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card>
 
@@ -29,7 +42,7 @@ const SpendingTrendChart = ({ data }: any) => {
 
       <CardContent className="h-[320px]">
 
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={300}>
 
           <AreaChart data={data}>
 
@@ -62,6 +75,9 @@ const SpendingTrendChart = ({ data }: any) => {
 
             <XAxis
               dataKey="name"
+              interval={0}
+              angle={-25}
+              textAnchor="end"
               tickLine={false}
               axisLine={false}
             />

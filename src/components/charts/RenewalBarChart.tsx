@@ -6,6 +6,7 @@ import {
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
+  Cell,
 } from "recharts";
 
 import {
@@ -16,21 +17,29 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 
-const RenewalBarChart = ({ data }: any) => {
+import { CATEGORY_COLORS } from "@/lib/chartColors";
+
+const RenewalBarChart = ({ renewalData = [] }: any) => {
+  if (!renewalData.length) {
+    return (
+      <Card>
+        <CardContent className="h-[320px] flex items-center justify-center">
+          <p className="text-muted-foreground">No renewal data available</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card>
-
       <CardHeader>
         <CardTitle>Upcoming Renewals</CardTitle>
         <CardDescription>Subscriptions renewing soon</CardDescription>
       </CardHeader>
 
       <CardContent className="h-[300px]">
-
-        <ResponsiveContainer width="100%" height="100%">
-
-          <BarChart data={data}>
-
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={renewalData}>
             <CartesianGrid strokeDasharray="3 3" />
 
             <XAxis dataKey="name" />
@@ -38,14 +47,17 @@ const RenewalBarChart = ({ data }: any) => {
 
             <Tooltip />
 
-            <Bar dataKey="renewal" fill="#6366F1" />
-
+            <Bar dataKey="renewal">
+              {(renewalData || []).map((entry: any, index: number) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={CATEGORY_COLORS[entry.category] || "#6366F1"}
+                />
+              ))}
+            </Bar>
           </BarChart>
-
         </ResponsiveContainer>
-
       </CardContent>
-
     </Card>
   );
 };
