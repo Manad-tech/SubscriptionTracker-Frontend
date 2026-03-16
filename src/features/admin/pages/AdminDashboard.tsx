@@ -46,8 +46,6 @@ const AdminDashboard = () => {
         Admin Dashboard
       </h1>
 
-      {/* Stats Cards */}
-
       <div className="grid grid-cols-4 gap-4">
 
         <Card>
@@ -103,8 +101,6 @@ const AdminDashboard = () => {
         </Card>
 
       </div>
-
-      {/* Upcoming Renewals List */}
 
       <Card>
 

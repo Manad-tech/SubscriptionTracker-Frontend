@@ -67,9 +67,14 @@ const AllSubscriptions = () => {
   }, []);
 
   const fetchSubs = async () => {
+  try {
     const data = await getAllSubscriptions();
-    setSubs(data);
-  };
+    setSubs(data?.subscriptions || []);
+  } catch (err) {
+    console.error("Failed to fetch subscriptions", err);
+    setSubs([]);
+  }
+};
 
   const today = new Date();
 
@@ -78,7 +83,7 @@ const AllSubscriptions = () => {
 
     const matchSearch =
       sub.name.toLowerCase().includes(search.toLowerCase()) ||
-      sub.userId?.email.toLowerCase().includes(search.toLowerCase());
+      sub.userId?.email?.toLowerCase().includes(search.toLowerCase());
 
     if (filter === "active") return renewalDate > today && matchSearch;
 
@@ -113,7 +118,6 @@ const AllSubscriptions = () => {
         </CardHeader>
 
         <CardContent className="bg-muted/30 rounded-md ">
-          {/* Search + Filters */}
 
           <div className="flex justify-between items-center gap-4 pt-4 pb-4">
             <Input
@@ -153,8 +157,6 @@ const AllSubscriptions = () => {
               </Button>
             </div>
           </div>
-
-          {/* Table */}
 
           <Table>
             <TableHeader>
@@ -210,8 +212,6 @@ const AllSubscriptions = () => {
                         </Badge>
                       )}
                     </TableCell>
-
-                    {/* Actions */}
 
                     <TableCell className="text-right">
                       <DropdownMenu>

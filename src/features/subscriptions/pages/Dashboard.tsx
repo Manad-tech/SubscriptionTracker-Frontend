@@ -70,7 +70,6 @@ const Dashboard = () => {
         <Card>
           <CardHeader>
             <CardDescription>Total Subscriptions</CardDescription>
-            <CreditCard className="w-4 h-4 text-muted-foreground" />
             <CardTitle className="text-2xl">{totalSubscriptions} </CardTitle>
           </CardHeader>
         </Card>

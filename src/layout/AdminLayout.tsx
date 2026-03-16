@@ -1,16 +1,19 @@
 import { Outlet } from "react-router-dom";
 import AdminSidebar from "@/features/admin/components/AdminSidebar";
+import Navbar from "./Navbar";
 
 const AdminLayout = () => {
   return (
-    <div className="flex min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-
+    <div className="flex h-screen bg-background text-foreground overflow-hidden ">
       <AdminSidebar />
 
-      <main className="flex-1 p-6">
-        <Outlet />
-      </main>
+      <div className="flex flex-col flex-1 ">
+        <Navbar />
 
+        <main className="p-6 flex-1 overflow-y-auto ">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

@@ -41,6 +41,8 @@ export const createSubscriptions = async (data: any) => {
     }
   })
 
+  console.log("Sending subscription:", data);
+
   return res.data
 }
 

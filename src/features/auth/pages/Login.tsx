@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { saveAuth } from "@/services/authService";
-
+import { motion } from "framer-motion";
 
 import { login } from "@/features/auth/authSlice";
 import type { AppDispatch, RootState } from "@/store/store";
+import { Card } from "@/components/ui/card";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,44 +31,50 @@ const Login = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--background)] text-[var(--foreground)]">
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-8 w-[400px] shadow-lg ">
-        <h1 className="text-2xl font-semibold text-center mb-6 ">Login</h1>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <Card className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-8 w-[400px] shadow-lg ">
+          <h1 className="text-2xl font-semibold text-center mb-6 ">Login</h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 ">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="bg-transparent border border-[var(--border)] rounded-md p-2 focus:outline-none "
-          />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 ">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-transparent border border-[var(--border)] rounded-md p-2 focus:outline-none "
+            />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="bg-transparent border border-[var(--border)] rounded-md p-2 focus:outline-none "
-          />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="bg-transparent border border-[var(--border)] rounded-md p-2 focus:outline-none "
+            />
 
-          {error && <p className="text-red-400 text-sm ">{error}</p>}
+            {error && <p className="text-red-400 text-sm ">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-[var(--primary)] text-white rounded-md p-2 font-medium hover:opacity-90 transition cursor-pointer"
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-[var(--primary)] text-white rounded-md p-2 font-medium hover:opacity-90 transition cursor-pointer"
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
 
-        <p className="text-sm text-center mt-5 text-muted">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-primary hover:underline">
-            Register
-          </Link>
-        </p>
-      </div>
+          <p className="text-sm text-center mt-5 text-muted">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-primary hover:underline">
+              Register
+            </Link>
+          </p>
+        </Card>
+      </motion.div>
     </div>
   );
 };

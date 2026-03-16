@@ -28,7 +28,6 @@ const AuthLayout = () => {
 
   return (
     <div className="min-h-screen grid md:grid-cols-2">
-      {/* Left branding side */}
 
       <div
         ref={leftPanel}
@@ -41,8 +40,6 @@ const AuthLayout = () => {
           miss a renewal again.
         </p>
       </div>
-
-      {/* Right auth form */}
 
       <div className="flex items-center justify-center bg-[var(--background)] px-6">
         <div

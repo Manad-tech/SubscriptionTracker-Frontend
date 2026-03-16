@@ -7,6 +7,16 @@ import { CirclePlus } from "lucide-react";
 import { Clock } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { motion } from "framer-motion";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -80,9 +90,48 @@ const Sidebar = () => {
         )}
       </nav>
 
-      <Button variant={"secondary"} onClick={handleLogout}>
-        Logout
-      </Button>
+      <Dialog>
+        <DialogTrigger asChild>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            variant="secondary"
+            className="text-red-500"
+          >
+            Logout
+          </motion.button>
+        </DialogTrigger>
+
+        <DialogContent className="text-cardForeground">
+          <DialogHeader>
+            <DialogTitle>Logout</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to logout? You will need to login again to
+              access your account.
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onHoverStart={() => console.log("Hover Started")}
+            >
+              <Button variant="outline">Cancel</Button>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onHoverStart={() => console.log("Hover Started")}
+              variant="destructive"
+              className="bg-red-500 rounded-md pl-3 pr-3"
+              onClick={handleLogout}
+            >
+              Logout
+            </motion.button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

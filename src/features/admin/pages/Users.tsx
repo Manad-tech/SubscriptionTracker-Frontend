@@ -176,7 +176,7 @@ const Users = () => {
                             </DropdownMenuItem>
                           </AlertDialogTrigger>
 
-                          <AlertDialogContent>
+                          <AlertDialogContent className="text-foreground">
                             <AlertDialogHeader>
                               <AlertDialogTitle>Delete User</AlertDialogTitle>
 
@@ -188,7 +188,8 @@ const Users = () => {
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-                              <AlertDialogAction
+                              <AlertDialogAction 
+                                className="bg-red-500"
                                 onClick={() => handleDelete(user._id)}
                               >
                                 Delete
