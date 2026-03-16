@@ -19,6 +19,7 @@ import LandingPage from "@/features/landing/pages/LandingPage";
 import AuthLayout from "@/layout/AuthLayout";
 import Notifications from "@/pages/Notifications";
 import Analytics from "@/features/admin/pages/Analytics"
+import Accounts from "../pages/Accounts";
 
 const AppRoutes = () => {
   return (
@@ -42,6 +43,7 @@ const AppRoutes = () => {
         <Route path="/add" element={<AddSubscription />} />
         <Route path="/history" element={<History />} />
         <Route path="/edit/:id" element={<EditSubscription />} />
+        <Route path="/account" element={<Accounts />} />
       </Route>
 
       <Route

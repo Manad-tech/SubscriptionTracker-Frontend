@@ -6,7 +6,7 @@ const AdminRoute = ({ children }: any) => {
 
   const { user } = useSelector((state: RootState) => state.auth)
 
-  if(user?.role !== "admin"){
+  if(user?.role !== "Admin"){
     return <Navigate to="/dashboard"/>
   }
 

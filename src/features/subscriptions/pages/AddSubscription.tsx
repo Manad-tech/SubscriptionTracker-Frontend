@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createSubscriptions } from "@/features/subscriptions/services/subscriptionServices";
+import type{ Subscription } from "@/types/subscription";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -16,15 +17,16 @@ import { useNavigate } from "react-router";
 const AddSubscription = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    amount: "",
-    currency: "INR",
-    billingCycle: "",
-    category: "",
-    renewalDate: "",
-    isShared: false,
-  });
+  const [formData, setFormData] = useState<Subscription>({
+  id: "",
+  name: "",
+  amount: 0,
+  currency: "INR",
+  billing_cycle: "Monthly",
+  category: "",
+  renewal_date: "",
+  is_shared: false
+});
 
   const [convertedAmount, setConvertedAmount] = useState<number | null>(null);
 
@@ -61,7 +63,7 @@ const AddSubscription = () => {
   const handleCurrencyChange = async (value: string) => {
     setFormData({
       ...formData,
-      currency: value,
+      currency: value as "INR" | "EUR" | "USD",
     });
 
     await convertCurrency(value);
@@ -76,7 +78,7 @@ const AddSubscription = () => {
       const rate = res.data.rates[targetCurrency];
 
       if (rate) {
-        const converted = formData.amount * rate;
+        const converted = Number(formData.amount) * rate;
         setConvertedAmount(converted);
       }
     } catch (error) {
@@ -115,9 +117,9 @@ const AddSubscription = () => {
           <Label>Billing Cycle</Label>
 
           <Select
-            value={formData.billingCycle}
+            value={formData.billing_cycle}
             onValueChange={(value) =>
-              setFormData({ ...formData, billingCycle: value })
+              setFormData({ ...formData, billing_cycle: value as 'Monthly' | 'Yearly' })
             }
           >
             <SelectTrigger>
@@ -171,7 +173,7 @@ const AddSubscription = () => {
             id="renewalDate"
             name="renewalDate"
             type="date"
-            value={formData.renewalDate}
+            value={formData.renewal_date}
             onChange={handleChange}
           />
         </div>

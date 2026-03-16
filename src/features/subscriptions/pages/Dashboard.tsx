@@ -1,13 +1,11 @@
 import {
   Card,
-  CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
 
 import { getSubscriptions } from "@/features/subscriptions/services/subscriptionServices";
-import { CreditCard } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import SpendingTrendChart from "@/components/charts/SpendingTrendChart";
@@ -28,10 +26,10 @@ const Dashboard = () => {
 
       console.log(data);
       setSubscriptions(data.subscriptions);
-      setLoading(false);
+      setLoading(loading === false);
     } catch (error) {
       console.error("Error fetching subscriptions:", error);
-      setLoading(false);
+      setLoading(loading === false);
     }
   };
 
@@ -40,11 +38,6 @@ const Dashboard = () => {
   const monthlySpend = subscriptions?.reduce((total, sub) => {
     return total + Number(sub.amount || 0);
   }, 0);
-
-  const trendData = subscriptions.map((sub: any) => ({
-    name: sub.name,
-    amount: sub.amount,
-  }));
 
   const categoryData = subscriptions.reduce((acc: any, sub: any) => {
     const existing = acc.find((c: any) => c.name === sub.category);
@@ -97,7 +90,7 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-6 min-w-0">
-        <SpendingTrendChart data={trendData} />
+        <SpendingTrendChart />
         <CategoryPieChart categoryData={categoryData} />
       </div>
 

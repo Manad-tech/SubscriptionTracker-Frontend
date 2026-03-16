@@ -1,7 +1,6 @@
 import { NavLink, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/features/auth/authSlice";
-import { Button } from "@/components/ui/button";
 import { LayoutDashboard, Shield } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { Clock } from "lucide-react";
@@ -17,12 +16,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
   const { user } = useSelector((state: RootState) => state.auth);
+  
+  const MotionButton = motion(Button);
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -92,14 +95,14 @@ const Sidebar = () => {
 
       <Dialog>
         <DialogTrigger asChild>
-          <motion.button
+          <MotionButton
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             variant="secondary"
             className="text-red-500"
           >
             Logout
-          </motion.button>
+          </MotionButton>
         </DialogTrigger>
 
         <DialogContent className="text-cardForeground">
@@ -119,7 +122,7 @@ const Sidebar = () => {
             >
               <Button variant="outline">Cancel</Button>
             </motion.button>
-            <motion.button
+            <MotionButton
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onHoverStart={() => console.log("Hover Started")}
@@ -128,7 +131,7 @@ const Sidebar = () => {
               onClick={handleLogout}
             >
               Logout
-            </motion.button>
+            </MotionButton>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -6,7 +6,7 @@ export interface User {
   _id: string
   name: string
   email: string
-  role: "Admin" | "user"
+  role: "Admin" | "User"
 }
 
 interface AuthState {
@@ -83,14 +83,13 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
-        state.user = action.payload.user
-        
-        if (isAdmin(action.payload.user.email)) {
-          state.user.role = 'Admin'
-        } else {
-          state.user.role = 'User'
+
+        const user: User = {
+          ...action.payload.user,
+          role: isAdmin(action.payload.user.email) ? 'Admin' : 'User',
         }
-        
+
+        state.user = user
         state.isAuthenticated = true;
       })
       .addCase(login.rejected, (state, action: any) => {

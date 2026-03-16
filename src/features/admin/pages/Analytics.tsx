@@ -96,7 +96,7 @@ const Analytics = () => {
                   outerRadius={100}
                   label
                 >
-                  {data.map((entry, index) => (
+                  {data.map((__, index) => (
                     <Cell key={index} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>

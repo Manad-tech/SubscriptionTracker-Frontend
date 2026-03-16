@@ -1,16 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button } from "../../../components/ui/button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logOut } from "../../../features/auth/authSlice";
-import { CirclePlus, Clock, LayoutDashboard, Shield } from "lucide-react";
+import { CirclePlus, Clock, LayoutDashboard } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import type { RootState } from "@/store/store";
+// import type { RootState } from "@/store/store";
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state: RootState) => state.auth);
+  // const { user } = useSelector((state: RootState) => state.auth);
 
   const handleLogout = () => {
     dispatch(logOut());
